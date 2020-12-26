@@ -1,5 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
+export class Articoli {
+  constructor(
+    public codart : String,
+    public descrizione : string,
+    public um : string,
+    public pzcart : number,
+    public peso : number,
+    public prezzo : number,
+    public isactive : boolean,
+    public data : Date
+  ) {}
+}
+
 @Component({
   selector: 'app-articoli',
   templateUrl: './articoli.component.html',
@@ -8,10 +21,10 @@ import { Component, OnInit } from '@angular/core';
 export class ArticoliComponent implements OnInit {
 
   articoli = [
-    {codart : '014600301', descrizione : 'BARILLA FARINA 1 KG', um : 'PZ', pzcart : 24, peso : 1, prezzo : 1.09},
-    {codart : "013500121", descrizione : "BARILLA PASTA GR.500 N.70 1/2 PENNE", um : "PZ", pzcart : 30, peso : 0.5, prezzo : 1.3},
-    {codart : "007686402", descrizione : "FINDUS FIOR DI NASELLO 300 GR", um : "PZ", pzcart : 8, peso : 0.3, prezzo : 6.46},
-    {codart : "057549001", descrizione : "FINDUS CROCCOLE 400 GR", um : "PZ", pzcart : 12, peso : 0.4, prezzo : 5.97}
+    new Articoli('014600301', 'BARILLA FARINA 1 KG', 'PZ', 24, 1, 1.09, true, new Date()),
+    new Articoli("013500121", "BARILLA PASTA GR.500 N.70 1/2 PENNE", "PZ", 30, 0.5, 1.3, false, new Date()),
+    new Articoli("007686402", "FINDUS FIOR DI NASELLO 300 GR", "PZ", 8, 0.3, 6.46, false, new Date()),
+    new Articoli("057549001", "FINDUS CROCCOLE 400 GR", "PZ", 12, 0.4, 5.97, false, new Date())
   ]
 
   constructor() { }

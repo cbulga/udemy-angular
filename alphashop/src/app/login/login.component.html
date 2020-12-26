@@ -7,10 +7,8 @@
 <label for="password">Password:</label>
 <input type="password" id="password" placeholder="Password" [(ngModel)]="password">
 
-<button (click) = gestAut()>Connetti</button>
+<button (click) = gestAut() class="btn btn-primary">Connetti</button>
 </div>
-<div *ngIf='consentito'> {{infoMsg}} </div>
-
 
 <!--
 <br>

@@ -10,6 +10,8 @@
           <th>Pezzi</th>
           <th>Peso(KG/LT)</th>
           <th>Prezzo</th>
+          <th>Attivo</th>
+          <th>Data</th>
       </tr>
   </thead>
   <tbody>
@@ -20,6 +22,8 @@
         <td>{{articolo.pzcart}}</td>
         <td>{{articolo.peso}}</td>
         <td>{{articolo.prezzo}}</td>
+        <td>{{articolo.isactive}}</td>
+        <td>{{articolo.data | date}}</td>
     </tr>
   </tbody>
 </table>
