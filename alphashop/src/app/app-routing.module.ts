@@ -7,6 +7,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
   {'path': '', 'component': LoginComponent },
+  {'path': 'index', 'component': LoginComponent },
   {'path': 'login', 'component': LoginComponent },
   {'path': 'welcome/:userid', 'component': WelcomeComponent },
   {'path': 'articoli', 'component': ArticoliComponent },
