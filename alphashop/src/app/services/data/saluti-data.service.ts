@@ -8,5 +8,5 @@ export class SalutiDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getSaluti = () => this.httpClient.get("http://localhost:8050/api/saluti/Cristian");
+  getSaluti = (nome: string) => this.httpClient.get(`http://localhost:8050/api/saluti/${nome}`);
 }

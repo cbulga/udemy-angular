@@ -16,7 +16,9 @@ public class SalutiRestContoller {
 	}
 
 	@GetMapping(value = "/saluti/{nome}")
-	public String getSaluti2(@PathVariable("nome") String Nome) {
-		return String.format("\"Saluti, %s hai usato il tuo primo web service\"", Nome);
+	public String getSaluti2(@PathVariable("nome") String nome) {
+		if (nome.equals("Marco"))
+			throw new RuntimeException("Utente Marco disabilitato");
+		return String.format("\"Saluti, %s hai usato il tuo primo web service\"", nome);
 	}
 }
