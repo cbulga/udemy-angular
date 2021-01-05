@@ -172,4 +172,15 @@ class SelectArtTest
 				.andExpect(content().json(jsonData2)) 
 				.andReturn();
 	}
+
+	@Test
+	@Order(6)
+	void listArtByDesc2() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/articoli/cerca/descrizione/ULIVETO")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(2)))
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andReturn();
+	}
 }

@@ -33,6 +33,19 @@ public class ArticoliServiceImpl implements ArticoliService {
 		}
 		return dto;
 	};
+	Function<ArticoliDto, Articoli> articoliDtoToArticoli = articoliDto -> {
+		final Articoli articoli;
+		if (articoliDto != null) {
+			articoli = modelMapper.map(articoliDto, Articoli.class);
+			articoli.setIdStatoArt(articoli.getIdStatoArt().trim());
+			articoli.setUm(articoli.getUm().trim());
+			articoli.setDescrizione(articoli.getDescrizione().trim());
+			if (articoli.getBarcode() != null && !articoli.getBarcode().isEmpty())
+				articoliDto.getBarcode().stream().forEach(barcode -> barcode.setArticolo(articoli));
+		} else
+			articoli = null;
+		return articoli;
+	};
 
 	@Override
 	public Iterable<Articoli> selTutti() {
@@ -62,14 +75,16 @@ public class ArticoliServiceImpl implements ArticoliService {
 
 	@Override
 	@Transactional
-	public void delArticolo(Articoli articolo) {
-		articoliRepository.delete(articolo);
+	public void delArticolo(ArticoliDto articolo) {
+		Articoli articoli = articoliDtoToArticoli.apply(articolo);
+		articoliRepository.delete(articoli);
 	}
 
 	@Override
 	@Transactional
-	public void insArticolo(Articoli articolo) {
-		articoliRepository.save(articolo);
+	public void insArticolo(ArticoliDto articolo) {
+		Articoli articoli = articoliDtoToArticoli.apply(articolo);
+		articoliRepository.save(articoli);
 	}
 
 	@Override

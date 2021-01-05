@@ -17,6 +17,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -30,11 +34,14 @@ public class Articoli implements Serializable {
 
 	@Id
 	@Column(name = "CODART")
+	@Size(min = 5, max = 20, message = "{Size.Articoli.codArt.Validation}")
+	@NotNull(message = "{NotNull.Articoli.codArt.Validation}")
 	private String codArt;
 
 	@Column(name = "DESCRIZIONE")
+	@Size(min = 6, max = 80, message = "{Size.Articoli.descrizione.Validation}")
 	private String descrizione;
-
+	
 	@Column(name = "UM")
 	private String um;
 
@@ -42,9 +49,11 @@ public class Articoli implements Serializable {
 	private String codStat;
 
 	@Column(name = "PZCART")
+	@Max(value = 99, message = "{Max.Articoli.pzCart.Validation}")
 	private Integer pzCart;
 
 	@Column(name = "PESONETTO")
+	@Min(value = (long) 0.01, message = "{Min.Articoli.pesoNetto.Validation}")
 	private double pesoNetto;
 
 	@Column(name = "IDSTATOART")

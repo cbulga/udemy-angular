@@ -17,9 +17,9 @@ public interface ArticoliService
 	
 	public ArticoliDto selByCodArt(String codArt);
 	
-	public void delArticolo(Articoli articolo);
+	public void delArticolo(ArticoliDto articolo);
 	
-	public void insArticolo(Articoli articolo);
+	public void insArticolo(ArticoliDto articolo);
 
 	ArticoliDto findByEan(String ean);
 }
