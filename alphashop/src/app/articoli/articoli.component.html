@@ -8,7 +8,7 @@
               <h2>Risultati Ricerca: <small>Trovati {{numArt}} Articoli</small></h2>
             </div>
             <div class="col-sm-7">
-              <button style="margin-left: 20px;" (click)="modifica('-1')" class="btn btn-success float-right">Nuovo Articolo</button>
+
             </div>
         </div>
     </div>
@@ -35,9 +35,6 @@
             </div>
         </div>
     </div>
-    <div class="alert alert-success" *ngIf='messaggio'>
-        {{messaggio}}
-    </div>
     <table id="articoli" class="table table-striped table-bordered table-hover">
       <thead>
         <tr>
@@ -49,8 +46,6 @@
           <th>Prezzo</th>
           <th>Attivo</th>
           <th>Data</th>
-          <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -62,15 +57,7 @@
             <td>{{articolo.pesoNetto}}</td>
             <td class="text-right">{{articolo.prezzo | currency:'EUR'}}</td>
             <td>{{articolo.idStatoArt}}</td>
-            <td>{{articolo.dataCreaz | date:'dd/MM/yyyy'}}</td>
-            <td>
-                <button (click)="modifica(articolo.codArt)" class="btn btn-warning table-buttons">
-                <span class="oi oi-pencil"></span> Modifica</button>
-            </td>
-            <td>
-                <button (click)="elimina(articolo.codArt)" class="btn btn-danger table-buttons">
-                <span class="oi oi-trash"></span> Elimina</button>
-            </td>
+            <td>{{articolo.dataCreaz | date}}</td>
         </tr>
       </tbody>
     </table>

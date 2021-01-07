@@ -151,7 +151,7 @@ public class ArticoliController {
 	
 	// ------------------- ELIMINAZIONE ARTICOLO ------------------------------------
 	@DeleteMapping(value = "/elimina/{codart}", produces = "application/json")
-	public ResponseEntity<InfoMsg> deleteArt(@PathVariable("codart") String codArt) throws NotFoundException {
+	public ResponseEntity<?> deleteArt(@PathVariable("codart") String codArt) throws NotFoundException {
 		logger.info("Eliminiamo l'articolo con codice {}", codArt);
 
 		ArticoliDto articolo = articoliService.selByCodArt(codArt);
@@ -162,6 +162,6 @@ public class ArticoliController {
 		}
 
 		articoliService.delArticolo(articolo);
-		return new ResponseEntity<>(new InfoMsg(HttpStatus.OK.toString(), "Eliminazione Articolo " + articolo.getCodArt() + " Eseguita Con Successo"), new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<>(createResponseNode(HttpStatus.OK.toString(), "Eliminazione Articolo " + articolo.getCodArt() + " Eseguita Con Successo"), new HttpHeaders(), HttpStatus.OK);
 	}
 }

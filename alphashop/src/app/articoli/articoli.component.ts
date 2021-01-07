@@ -1,61 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ArticoliDataService } from '../services/data/articoli-data.service';
 
 export class Articoli {
   constructor(
-    public codArt: string,
-    public descrizione: string,
-    public um: string,
-    public codStat: string,
-    public pzCart: number,
-    public pesoNetto: number,
-    public prezzo: number,
-    public idStatoArt: string,
-    public dataCreaz: Date,
-    public barcode: Barcode,
-    public famAssort: FamAssort,
-    public ingredienti: Ingredienti,
-    public iva: Iva
+    public codArt : String,
+    public descrizione : string,
+    public um : string,
+    public pzCart : number,
+    public pesoNetto : number,
+    public prezzo : number,
+    public idStatoArt : boolean,
+    public dataCreaz : Date
   ) {}
-}
-
-export class Barcode {
-
-  constructor(
-    public barcode: string,
-    public idTipoArt: string
-  ) {}
-}
-
-export class Ingredienti {
-
-  constructor(
-    public codart: string,
-    public info: string
-  ) {}
-}
-
-export class FamAssort {
-
-  constructor(
-    public id: number,
-    public descrizione: string
-  ) {}
-}
-
-export class Iva {
-
-  constructor(
-    public idIva: number,
-    public descrizione: string,
-    public aliquota: number
-  ) {}
-}
-
-export class ApiMsg {
-  constructor(public code: string,
-    public message: string) {}
 }
 
 @Component({
@@ -79,10 +36,8 @@ export class ArticoliComponent implements OnInit {
   pagina = 1;
   righe = 10;
   filter: string = '';
-  apiMsg: ApiMsg;
-  messaggio: string;
 
-  constructor(private route : ActivatedRoute, private router: Router, private articoliService: ArticoliDataService) { }
+  constructor(private route : ActivatedRoute, private articoliService: ArticoliDataService) { }
 
   ngOnInit(): void {
     this.filter = this.route.snapshot.params['filter'];
@@ -95,7 +50,7 @@ export class ArticoliComponent implements OnInit {
   }
 
   getArticoli(filter: string) {
-    console.log("Ricerchiamo articoli per codArt con filtro " + filter);
+    console.log("Ricerchiamo articoli per codart con filtro " + filter);
     this.articoliService.getArticoliByCodArt(filter).subscribe(
       response => {
         this.updateModelByArticolo(response, filter);
@@ -148,26 +103,5 @@ export class ArticoliComponent implements OnInit {
   updateNumArt() {
     this.numArt = this.articoli.length;
     console.log(this.articoli.length);
-  }
-
-  elimina = (codArt: string) => {
-    console.log(`Eliminiamo l'articolo con codArt ${codArt}`);
-    this.articoliService.deleteArticoliByCodArt(codArt).subscribe(
-      response => {
-        console.log(response);
-        this.apiMsg = response;
-        this.messaggio = this.apiMsg.message;
-        this.refresh();
-      },
-      error => {
-        console.log(error.error.messaggio);
-        this.messaggio = error.error.messaggio;
-      }
-    );
-  }
-
-  modifica = (codArt: string) => {
-    console.log(`Modifica articolo con codArt ${codArt}`);
-    this.router.navigate(['/newart', codArt]);
   }
 }

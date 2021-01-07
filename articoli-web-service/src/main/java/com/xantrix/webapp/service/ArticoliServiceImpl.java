@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +27,9 @@ public class ArticoliServiceImpl implements ArticoliService {
 		ArticoliDto dto = null;
 		if (articoli != null) {
 			dto = modelMapper.map(articoli, ArticoliDto.class);
-			dto.setIdStatoArt(StringUtils.trim(dto.getIdStatoArt()));
-			dto.setUm(StringUtils.trim(dto.getUm()));
-			dto.setDescrizione(StringUtils.trim(dto.getDescrizione()));
+			dto.setIdStatoArt(dto.getIdStatoArt().trim());
+			dto.setUm(dto.getUm().trim());
+			dto.setDescrizione(dto.getDescrizione().trim());
 		}
 		return dto;
 	};
@@ -38,9 +37,9 @@ public class ArticoliServiceImpl implements ArticoliService {
 		final Articoli articoli;
 		if (articoliDto != null) {
 			articoli = modelMapper.map(articoliDto, Articoli.class);
-			articoli.setIdStatoArt(StringUtils.trim(articoli.getIdStatoArt()));
-			articoli.setUm(StringUtils.trim(articoli.getUm()));
-			articoli.setDescrizione(StringUtils.trim(articoli.getDescrizione()));
+			articoli.setIdStatoArt(articoli.getIdStatoArt().trim());
+			articoli.setUm(articoli.getUm().trim());
+			articoli.setDescrizione(articoli.getDescrizione().trim());
 			if (articoli.getBarcode() != null && !articoli.getBarcode().isEmpty())
 				articoliDto.getBarcode().stream().forEach(barcode -> barcode.setArticolo(articoli));
 		} else
