@@ -54,6 +54,7 @@ public class Articoli implements Serializable {
 
 	@Column(name = "PESONETTO")
 	@Min(value = (long) 0.01, message = "{Min.Articoli.pesoNetto.Validation}")
+	@Max(value = 100, message = "{Max.Articoli.pesoNetto.Validation}")
 	private double pesoNetto;
 
 	@Column(name = "IDSTATOART")

@@ -29,6 +29,7 @@ public class ArticoliDto {
 	@Max(value = 99, message = "{Max.Articoli.pzCart.Validation}")
 	private Integer pzCart;
 	@Min(value = (long) 0.01, message = "{Min.Articoli.pesoNetto.Validation}")
+	@Max(value = 100, message = "{Max.Articoli.pesoNetto.Validation}")
 	private double pesoNetto;
 	private String idStatoArt;
 	private Date dataCreaz;
