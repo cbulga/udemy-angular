@@ -97,7 +97,7 @@
               <div class="form-group">
                 <label for="idFamAss">Famiglia Assortimento:</label>
                 <select name="idFamAss" class="form-control" [(ngModel)]="articolo.famAssort.id">
-                    <option [ngValue]="categoria.id" *ngFor="let categoria of FamAssort">{{categoria.descrizione}}</option>
+                    <option [ngValue]="categoria.id" *ngFor="let categoria of famAssorts">{{categoria.descrizione}}</option>
                 </select>
               </div>
 

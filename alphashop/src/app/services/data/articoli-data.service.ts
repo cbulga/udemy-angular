@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Articoli, ApiMsg } from 'src/app/articoli/articoli.component';
+import { Articoli, ApiMsg, FamAssort, Iva } from 'src/app/articoli/articoli.component';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +32,13 @@ export class ArticoliDataService {
 
   insArticoli(articoli: Articoli) {
     return this.httpClient.post<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/inserisci`, articoli);
+  }
+
+  getFamAssort() {
+    return this.httpClient.get<FamAssort>(`http://${this.server}:${this.port}/api/categoria/cerca/tutti`);
+  }
+
+  getIva() {
+    return this.httpClient.get<Iva>(`http://${this.server}:${this.port}/api/iva/cerca/tutti`);
   }
 }
