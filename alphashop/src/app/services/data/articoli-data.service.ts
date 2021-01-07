@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Articoli } from 'src/app/articoli/articoli.component';
+import { Articoli, ApiMsg, FamAssort, Iva } from 'src/app/articoli/articoli.component';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +20,25 @@ export class ArticoliDataService {
 
   getArticoliByEan(barcode: string) {
     return this.httpClient.get<Articoli>(`http://${this.server}:${this.port}/api/articoli/cerca/ean/${barcode}`);
+  }
+
+  deleteArticoliByCodArt(codArt: string) {
+    return this.httpClient.delete<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/elimina/${codArt}`);
+  }
+
+  updArticoli(articoli: Articoli) {
+    return this.httpClient.put<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/modifica`, articoli);
+  }
+
+  insArticoli(articoli: Articoli) {
+    return this.httpClient.post<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/inserisci`, articoli);
+  }
+
+  getFamAssort() {
+    return this.httpClient.get<FamAssort>(`http://${this.server}:${this.port}/api/categoria/cerca/tutti`);
+  }
+
+  getIva() {
+    return this.httpClient.get<Iva>(`http://${this.server}:${this.port}/api/iva/cerca/tutti`);
   }
 }
