@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		UserBuilder users = User.builder();
 
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		manager.createUser(users.username("RadUser")
+		manager.createUser(users.username("ReadUser")
 				.password(new BCryptPasswordEncoder().encode("BimBumBam_2018"))
 				.roles("USER")
 				.build());

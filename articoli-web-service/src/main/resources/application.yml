@@ -27,3 +27,9 @@ spring:
           lob:
             non_contextual_creation: true
     show-sql: true
+
+#Opzioni Accesso Servizio gestuser            
+gestuser:
+  srvUrl: http://localhost:8019/api/utenti/cerca/userid/
+  userId: ReadUser
+  password: BimBumBam_2018
