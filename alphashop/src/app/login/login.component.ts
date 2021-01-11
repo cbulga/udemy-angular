@@ -22,8 +22,22 @@ export class LoginComponent implements OnInit {
 
   gestAut(): void {
     this.loginButtonClicked = true;
+
+    this.authService.autenticaService(this.userid, this.password).subscribe(
+      data => {
+        console.log(data);
+        this.autenticato = true;
+        this.route.navigate(["welcome", this.userid]);
+      },
+      error => {
+        console.log(error);
+        this.autenticato = false;
+      }
+    );
+/*
     this.autenticato = this.authService.login(this.userid, this.password);
     if (this.autenticato)
       this.route.navigate(["welcome", this.userid]);
+*/
   }
 }

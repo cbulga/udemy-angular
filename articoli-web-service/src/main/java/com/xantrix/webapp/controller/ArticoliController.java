@@ -45,6 +45,17 @@ public class ArticoliController {
 	@Autowired
 	private ResourceBundleMessageSource errMessage;
 
+	@GetMapping(value = "test", produces = "application/json")
+	public ResponseEntity<?> testConnex() {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode responseNode = mapper.createObjectNode();
+
+		responseNode.put("code", HttpStatus.OK.toString());
+		responseNode.put("message", "Test Connessione Ok");
+
+		return new ResponseEntity<>(responseNode, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/cerca/ean/{barcode}", produces = "application/json")
 	public ResponseEntity<ArticoliDto> listArtByEan(@PathVariable("barcode") String barcode)
 			throws NotFoundException {
