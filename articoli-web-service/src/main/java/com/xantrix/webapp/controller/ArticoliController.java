@@ -1,7 +1,9 @@
 package com.xantrix.webapp.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -45,6 +47,17 @@ public class ArticoliController {
 	@Autowired
 	private ResourceBundleMessageSource errMessage;
 
+	@Autowired
+	private PriceClient priceClient;
+
+	private Double getPriceArt(String codArt, Optional<String> idList, String authorizationHeader) {
+		Double prezzo = idList.isPresent() 
+				? priceClient.getPriceArt(authorizationHeader, codArt, idList.get()) 
+				: priceClient.getDefaultPriceArt(authorizationHeader, codArt);
+		logger.info("Prezzo Articolo {}: {}", codArt, prezzo);
+		return prezzo;
+	}
+	
 	@GetMapping(value = "test", produces = "application/json")
 	public ResponseEntity<?> testConnex() {
 		ObjectMapper mapper = new ObjectMapper();
@@ -57,45 +70,57 @@ public class ArticoliController {
 	}
 	
 	@GetMapping(value = "/cerca/ean/{barcode}", produces = "application/json")
-	public ResponseEntity<ArticoliDto> listArtByEan(@PathVariable("barcode") String barcode)
+	public ResponseEntity<ArticoliDto> listArtByEan(@PathVariable("barcode") String barcode, HttpServletRequest httpRequest)
 			throws NotFoundException {
 		logger.info("****** Otteniamo l'articolo con barcode {} *******", barcode);
+
+		String authHeader = httpRequest.getHeader("Authorization");
 
 		ArticoliDto articoliDto = articoliService.findByEan(barcode);
 		if (articoliDto == null) {
 			String errMsg = String.format("Non è stato trovato alcun articolo avente il barcode %s", barcode);
 			logger.warn(errMsg);
 			throw new NotFoundException(errMsg);
+		} else {
+			articoliDto.setPrezzo(this.getPriceArt(articoliDto.getCodArt(), Optional.empty(), authHeader));
 		}
 
 		return new ResponseEntity<>(articoliDto, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/cerca/codice/{codart}", produces = "application/json")
-	public ResponseEntity<ArticoliDto> listArtByCodArt(@PathVariable("codart") String codArt)
+	public ResponseEntity<ArticoliDto> listArtByCodArt(@PathVariable("codart") String codArt, HttpServletRequest httpRequest)
 			throws NotFoundException {
 		logger.info("****** Otteniamo l'articolo con codice {} *******", codArt);
+
+		String authHeader = httpRequest.getHeader("Authorization");
 
 		ArticoliDto articoliDto = articoliService.selByCodArt(codArt);
 		if (articoliDto == null) {
 			String errMsg = String.format("L'articolo con codice %s non è stato trovato!", codArt);
 			logger.warn(errMsg);
 			throw new NotFoundException(errMsg);
+		} else {
+			articoliDto.setPrezzo(this.getPriceArt(codArt, Optional.empty(), authHeader));
 		}
 
 		return new ResponseEntity<>(articoliDto, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/cerca/descrizione/{filter}", produces = "application/json")
-	public ResponseEntity<List<ArticoliDto>> listArtByDesc(@PathVariable("filter") String filter)
+	public ResponseEntity<List<ArticoliDto>> listArtByDesc(@PathVariable("filter") String filter, HttpServletRequest httpRequest)
 			throws NotFoundException {
 		logger.info("****** Otteniamo l'articolo con descrizione {} *******", filter);
+
+		String authHeader = httpRequest.getHeader("Authorization");
 
 		List<ArticoliDto> articoli = articoliService.selByDescrizione("%" + filter.toUpperCase() + "%");
 		if (articoli == null) {
 			String errMsg = String.format("Non è stato trovato alcun articolo avente descrizione %s", filter);
 			logger.warn(errMsg);
 			throw new NotFoundException(errMsg);
+		} else {
+			articoli.stream().forEach(a -> a.setPrezzo(this.getPriceArt(a.getCodArt(), Optional.empty(), authHeader)));
 		}
 
 		return new ResponseEntity<>(articoli, HttpStatus.OK);

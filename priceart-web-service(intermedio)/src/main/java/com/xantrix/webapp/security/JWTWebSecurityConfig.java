@@ -53,9 +53,15 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	private static final String[] USER_MATCHER = { "/api/articoli/cerca/**"};
-	private static final String[] ADMIN_MATCHER = { "/api/articoli/inserisci/**", 
-			"/api/articoli/modifica/**", "/api/articoli/elimina/**" };
+	private static final String[] USER_MATCHER = {
+			"/api/prezzi/**", 
+			"/api/listino/cerca/**", 
+			"/info"};
+	private static final String[] ADMIN_MATCHER = {
+			"/api/listino/inserisci/**", 
+			"/api/listino/modifica/**", 
+			"/api/listino/elimina/**", 
+			"/api/prezzi/elimina/**"};
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {

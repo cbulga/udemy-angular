@@ -28,6 +28,23 @@ spring:
             non_contextual_creation: true
     show-sql: true
 
+#Opzioni Open Feign    
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+      
+#Configurazione levello di Log PriceClient 
+logging:
+  level:
+    com:
+      xantrix:
+        webapp:
+          controller:
+            PriceClient: DEBUG
+
 #Opzioni Accesso Servizio gestuser            
 gestuser:
   srvUrl: http://localhost:8019/api/utenti/cerca/userid/
