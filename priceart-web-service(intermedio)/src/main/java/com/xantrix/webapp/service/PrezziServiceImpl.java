@@ -58,4 +58,9 @@ public class PrezziServiceImpl implements PrezziService {
 	public void delDettListini(DettListiniDto dettListiniDto) {
 		prezziRepository.delete(dettListiniDto2DettListini.apply(dettListiniDto));
 	}
+
+	@Override
+	public Double selPrezzoByListinoIdAndCodArt(String listinoId, String codArt) {
+		return prezziRepository.findPrezzoArticoloByListinoIdAndCodArt(listinoId, codArt, Obsoleto.NO);
+	}
 }

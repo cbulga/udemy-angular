@@ -50,6 +50,9 @@ public class ArticoliController {
 	@Autowired
 	private PriceClient priceClient;
 
+	@Autowired
+	private PromoClient promoClient;
+
 	private Double getPriceArt(String codArt, Optional<String> idList, String authorizationHeader) {
 		Double prezzo = idList.isPresent() 
 				? priceClient.getPriceArt(authorizationHeader, codArt, idList.get()) 
@@ -57,7 +60,21 @@ public class ArticoliController {
 		logger.info("Prezzo Articolo {}: {}", codArt, prezzo);
 		return prezzo;
 	}
-	
+
+	private Double getPriceArt(String codArt, Optional<String> idList) {
+		Double prezzo = idList.isPresent() 
+				? priceClient.getPriceArt(codArt, idList.get()) 
+				: priceClient.getDefaultPriceArt(codArt);
+		logger.info("Prezzo Articolo {}: {}", codArt, prezzo);
+		return prezzo;
+	}
+
+	private Double getPromoArt(String codArt, String header) {
+		Double prezzo = promoClient.getPromoArt(header, codArt);
+		logger.info("Prezzo Promo Articolo {}: {}", codArt, prezzo);
+		return prezzo;
+	}
+
 	@GetMapping(value = "test", produces = "application/json")
 	public ResponseEntity<?> testConnex() {
 		ObjectMapper mapper = new ObjectMapper();
@@ -83,6 +100,7 @@ public class ArticoliController {
 			throw new NotFoundException(errMsg);
 		} else {
 			articoliDto.setPrezzo(this.getPriceArt(articoliDto.getCodArt(), Optional.empty(), authHeader));
+			articoliDto.setPromo(this.getPromoArt(articoliDto.getCodArt(), authHeader));
 		}
 
 		return new ResponseEntity<>(articoliDto, HttpStatus.OK);
@@ -102,8 +120,26 @@ public class ArticoliController {
 			throw new NotFoundException(errMsg);
 		} else {
 			articoliDto.setPrezzo(this.getPriceArt(codArt, Optional.empty(), authHeader));
+			articoliDto.setPromo(this.getPromoArt(articoliDto.getCodArt(), authHeader));
 		}
 
+		return new ResponseEntity<>(articoliDto, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/noauth/cerca/codice/{codart}", produces = "application/json")
+	public ResponseEntity<ArticoliDto> noAuthListArtByCodArt(@PathVariable("codart") String codArt)
+			throws NotFoundException {
+		logger.info("****** Otteniamo l'articolo con codice {} *******", codArt);
+		
+		ArticoliDto articoliDto = articoliService.selByCodArt(codArt);
+		if (articoliDto == null) {
+			String errMsg = String.format("L'articolo con codice %s non è stato trovato!", codArt);
+			logger.warn(errMsg);
+			throw new NotFoundException(errMsg);
+		} else {
+			articoliDto.setPrezzo(this.getPriceArt(codArt, Optional.empty()));
+		}
+		
 		return new ResponseEntity<>(articoliDto, HttpStatus.OK);
 	}
 
@@ -120,7 +156,10 @@ public class ArticoliController {
 			logger.warn(errMsg);
 			throw new NotFoundException(errMsg);
 		} else {
-			articoli.stream().forEach(a -> a.setPrezzo(this.getPriceArt(a.getCodArt(), Optional.empty(), authHeader)));
+			articoli.stream().forEach(a -> {
+				a.setPrezzo(this.getPriceArt(a.getCodArt(), Optional.empty(), authHeader));
+				a.setPromo(this.getPromoArt(a.getCodArt(), authHeader));
+			});
 		}
 
 		return new ResponseEntity<>(articoli, HttpStatus.OK);

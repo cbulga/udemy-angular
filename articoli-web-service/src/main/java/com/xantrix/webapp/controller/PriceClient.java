@@ -13,4 +13,10 @@ public interface PriceClient {
 
 	@GetMapping(value = "/api/prezzi/{codart}/{idlist}")
 	public Double getPriceArt(@RequestHeader("Authorization") String authHeader, @PathVariable("codart") String codArt, @PathVariable("idlist") String idList);
+
+	@GetMapping(value = "/api/prezzi/noauth/{codart}")
+    public Double getDefaultPriceArt(@PathVariable("codart") String codArt);
+
+	@GetMapping(value = "/api/prezzi/noauth/{codart}/{idlist}")
+    public Double getPriceArt(@PathVariable("codart") String codArt, @PathVariable("idlist") String idList);
 }

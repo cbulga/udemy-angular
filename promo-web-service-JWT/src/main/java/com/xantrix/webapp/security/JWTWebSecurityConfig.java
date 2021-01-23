@@ -53,33 +53,32 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	private static final String[] NO_AUTH_MATCHER = { "/api/articoli/noauth/cerca/**"};
-	private static final String[] USER_MATCHER = { "/api/articoli/cerca/**"};
-	private static final String[] ADMIN_MATCHER = { "/api/articoli/inserisci/**", 
-			"/api/articoli/modifica/**", "/api/articoli/elimina/**" };
+	private static final String[] NOAUTH_MATCHER = { "/api/promo/active" };
+	private static final String[] USER_MATCHER = { "/api/promo/**" };
+	private static final String[] ADMIN_MATCHER = { "/api/promo/elimina/**", 
+			"/api/promo/modifica/**", 
+			"/api/promo/inserisci/**" };
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable()
-				.exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint)
+		httpSecurity.csrf().disable().exceptionHandling()
+				.authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint)
 				.and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeRequests()
-				.antMatchers(NO_AUTH_MATCHER).permitAll() // endpoint che non richiede autenticazione
-				.antMatchers(USER_MATCHER).hasAnyRole("USER")
+				.antMatchers(NOAUTH_MATCHER).permitAll() // endpoint che non richiede autenticazione
 				.antMatchers(ADMIN_MATCHER).hasAnyRole("ADMIN")
+				.antMatchers(USER_MATCHER).hasAnyRole("USER")
 				.anyRequest().authenticated();
 
 		httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-		httpSecurity.headers().frameOptions().sameOrigin().cacheControl();  
+		httpSecurity.headers().frameOptions().sameOrigin().cacheControl();
 	}
 
 	@Override
 	public void configure(WebSecurity webSecurity) throws Exception {
-		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
-				.antMatchers(HttpMethod.OPTIONS, "/**")
-				.and().ignoring()
-				.antMatchers(HttpMethod.GET, "/");	
+		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath).antMatchers(HttpMethod.OPTIONS, "/**").and().ignoring().antMatchers(HttpMethod.GET, "/");
 	}
 }

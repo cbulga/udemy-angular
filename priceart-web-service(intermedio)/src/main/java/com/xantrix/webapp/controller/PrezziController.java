@@ -32,6 +32,25 @@ public class PrezziController {
 	@Autowired
 	private AppConfig appConfig;
 
+	// ------------------- SELECT PREZZO CODART SENZA AUTENTICAZIONE ------------------------------------
+	@GetMapping(value = {"/noauth/{codart}/{idlist}", "noauth/{codart}"})
+	public double getPriceCodArtNoAuth(@PathVariable("codart") String codArt, @PathVariable("idlist") Optional<String> optIdList) {
+		double retVal = 0;
+
+		String idList = (optIdList.isPresent()) ? optIdList.get() : appConfig.getListino();
+		log.info("Listino di Riferimento: {}", idList);
+
+		Double prezzo =  prezziService.selPrezzoByListinoIdAndCodArt(idList, codArt);
+		if (prezzo != null) {
+			log.info("Prezzo Articolo:  {}", prezzo);
+			retVal = prezzo;
+		} else {
+			log.warn("Prezzo Articolo Assente!!");
+		}
+
+		return retVal;
+	}
+
 	@GetMapping(value = {"/{codArt}/{listinoId}", "/{codArt}"}, produces = "application/json")
 	public ResponseEntity<Double> getPrezzoArticoloFromListinoAttivoByCodArt(@PathVariable("codArt") String codArt,
 			@PathVariable("listinoId") Optional<String> listinoIdOpt)

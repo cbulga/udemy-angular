@@ -53,6 +53,9 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
+	private static final String[] NOAUTH_MATCHER = {
+			"/api/prezzi/noauth/**"
+	};
 	private static final String[] USER_MATCHER = {
 			"/api/prezzi/**", 
 			"/api/listino/cerca/**", 
@@ -71,6 +74,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeRequests()
+				.antMatchers(NOAUTH_MATCHER).permitAll()
 				.antMatchers(USER_MATCHER).hasAnyRole("USER")
 				.antMatchers(ADMIN_MATCHER).hasAnyRole("ADMIN")
 				.anyRequest().authenticated();

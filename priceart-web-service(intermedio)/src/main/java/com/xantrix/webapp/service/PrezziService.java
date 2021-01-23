@@ -9,4 +9,6 @@ public interface PrezziService {
 	DettListiniDto findByCodArtAndListinoId(String codArt, String listinoId);
 
 	void delDettListini(DettListiniDto dettListiniDto);
+
+	public Double selPrezzoByListinoIdAndCodArt(String listinoId, String codArt);
 }
