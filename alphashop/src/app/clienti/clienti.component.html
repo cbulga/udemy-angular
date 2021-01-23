@@ -1,0 +1,10 @@
+<app-infoclienti *ngFor="let cliente of clienti"
+    [idFid] = cliente.idFid
+    [nome] = cliente.nome
+    [bollini] = cliente.bollini
+    [attivo] = cliente.attivo
+    
+    (verifica)="checkStatus($event)"
+    >
+
+</app-infoclienti>

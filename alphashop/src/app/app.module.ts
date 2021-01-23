@@ -16,6 +16,9 @@ import { LogoutComponent } from './logout/logout.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NewartComponent } from './newart/newart.component';
 import { AuthInterceptorService } from './services/http/auth-intercept.service';
+import { ClientiComponent } from './clienti/clienti.component';
+import { InfoclientiComponent } from './clienti/infoclienti/infoclienti.component';
+import { CopyrightDirective } from './directives/copyright.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { AuthInterceptorService } from './services/http/auth-intercept.service';
     FooterComponent,
     JumbotronComponent,
     LogoutComponent,
-    NewartComponent
+    NewartComponent,
+    ClientiComponent,
+    InfoclientiComponent,
+    CopyrightDirective
   ],
   imports: [
     BrowserModule,

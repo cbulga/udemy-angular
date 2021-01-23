@@ -1,0 +1,8 @@
+<p>Saluti {{idFid}} - {{nome}}, hai un totale di <span 
+    [ngClass]="{'verde': bollini >= 1000, 'rosso': bollini < 1000}">{{bollini}}</span> bollini a tua disposizione</p>
+
+<button *ngIf="bollini >= 1000; else noGift" (click)="verifica.emit(idFid)">Verifica</button>
+
+<ng-template #noGift>
+    <p>Ti mancano {{differenza}} bollini</p>
+</ng-template>
